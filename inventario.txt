@@ -1,0 +1,60 @@
+# Definición de la clase Inventario
+# Esta clase maneja una lista de productos.
+class Inventario:
+# Constructor de la clase Inventario
+    # Inicializa la lista de productos como vacía
+    def __init__(self):
+        self.productos = {}
+
+    # Método para añadir un nuevo producto
+    def añadir_producto(self, producto):
+        if producto.id_producto in self.productos:
+            print("Error: Producto ya existe.")
+        else:
+            self.productos[producto.id_producto] = producto
+
+    # Método para eliminar producto
+    def eliminar_producto(self, id_producto):
+        if id_producto in self.productos:
+            del self.productos[id_producto]
+        else:
+            print("Error: Producto no encontrado.")
+
+    # Método para actualizar la cantidad o precio de un producto
+    def actualizar_producto(self, id_producto, cantidad=None, precio=None):
+        if id_producto in self.productos:
+            if cantidad is not None:
+                self.productos[id_producto].cantidad = cantidad
+            if precio is not None:
+                self.productos[id_producto].precio = precio
+        else:
+            print("Error: Producto no encontrado.")
+
+# Interfaz de usuario en la consola
+def menu():
+    inventario = Inventario()
+    while True:
+        print("\n1. Añadir Producto\n2. Eliminar Producto\n3. Actualizar Producto\n4. Salir")
+        opcion = input("Seleccione una opción: ")
+        if opcion == '4':
+            break
+        elif opcion == '1':
+            id_producto = input("Añade el ID del producto: ")
+            nombre = input("Añade el nombre del producto: ")
+            cantidad = int(input("Añade la cantidad del producto: "))
+            precio = float(input("Añade el precio del producto: "))
+            producto = Producto(id_producto, nombre, cantidad, precio)
+            inventario.añadir_producto(producto)
+        elif opcion == '2':
+            id_producto = input("Añade el ID del producto a eliminar: ")
+            inventario.eliminar_producto(id_producto)
+        elif opcion == '3':
+            id_producto = input("Añade el ID del producto a actualizar: ")
+            cantidad = input("Añade la nueva cantidad (dejar en blanco para no cambiar): ")
+            precio = input("Añade el nuevo precio (dejar en blanco para no cambiar): ")
+            cantidad = int(cantidad) if cantidad else None
+            precio = float(precio) if precio else None
+            inventario.actualizar_producto(id_producto, cantidad, precio)
+        
+if __name__ == "__main__":
+    menu()
